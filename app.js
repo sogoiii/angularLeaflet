@@ -39,8 +39,8 @@ var app = module.exports = express();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
+// app.set('views', __dirname + '/views');
+// app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -48,8 +48,9 @@ app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(__dirname + '/app'));
+
+// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname + '/app/'));
 app.use(app.router);
 
 // development only
@@ -78,11 +79,23 @@ function ensureAuthenticated(req, res, next) {
 
 // app.get('/', routes.index);
  app.get("/", function(req, res) {//this default page will go for the angular site
-  console.log('going to send html')
+  console.log('going to send index html')
   // res.redirect("/index.html");
-
-  res.sendFile("/index.html")
+  res.send("index.html")
 });
+
+
+app.get('/static/:name', function(req, res){
+	console.log('will send out file at::: views/'+ req.params.name)
+	res.sendfile("./app/views/"+req.params.name)
+})
+
+app.get('/static/:group/:name', function(req, res){
+	console.log('this is the static group request:::: ' + './app/views/'+req.params.group + '/' + req.params.name)
+	res.sendfile('./app/views/'+req.params.group + '/' + req.params.name)
+
+})
+
 
 
 
@@ -94,6 +107,16 @@ app.post('/api/login', routes.login)
 app.get('/api/user/:userId', ensureAuthenticated, user.userIndex)
 
 // app.post('/api/login/:data', routes.login)
+
+
+
+app.get("*", function(req, res) {// I could chnage this to the 404 page which can load other things as well
+  console.log('no route found, sending index.html file manually')
+  // res.redirect("/");
+  res.sendfile("./app/index.html")
+  // res.sendfile("./app/404.html");
+});
+
 
 
 http.createServer(app).listen(app.get('port'), function(){

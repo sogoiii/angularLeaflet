@@ -19,30 +19,26 @@ var app = angular.module('angularUiTestingApp', ['ui.state', 'ui.bootstrap', 're
 
      // $locationProvider.hashPrefix('#');
 
-    // $routeProvider
-    //   .when('/ddd', {
-    //     templateUrl: 'views/main.html',
-    //     controller: 'MainCtrl'
-    //   })
-    //   .otherwise({
-    //     redirectTo: '/'
-    //   });
+    $routeProvider
+      .otherwise({
+        redirectTo: '/404'
+      });
 
   $stateProvider
     .state('index', {
-        url: "/", // root route
-        views: {
-            "bodyView": {
-                templateUrl: "views/main.html",
-                controller: 'MainCtrl'
-            }
-        }
+      url: "/", // root route
+      views: {
+          "bodyView": {
+              templateUrl: "static/main.html",
+              controller: 'MainCtrl'
+          }
+      }
     })
     .state('contact', {
       url: '/contact',
       views: {
         "bodyView": {
-          templateUrl: "views/contact.html",
+          templateUrl: "static/contact.html",
           controller: "ContactCtrl"
         }
       }
@@ -51,7 +47,7 @@ var app = angular.module('angularUiTestingApp', ['ui.state', 'ui.bootstrap', 're
       url: '/about',
       views: {
           "bodyView": {
-            templateUrl: "views/about.html",
+            templateUrl: "static/about.html",
             controller: "AboutCtrl"
           }
       }
@@ -60,10 +56,19 @@ var app = angular.module('angularUiTestingApp', ['ui.state', 'ui.bootstrap', 're
       url: '/user/{userId}',
       views: {
         "bodyView" : {
-          templateUrl: "views/userIndex.html",
+          templateUrl: "static/user/userIndex.html",
           controller: "UserIndexCtrl"
         }
       }
     })
+    // .state('404',{
+    //   url: '/404',
+    //   views: {
+    //     "bodyView" : {
+    //       templateUrl: "404.html"
+    //     }
+    //   }
+
+    // })
 
   }]);
