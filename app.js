@@ -79,7 +79,9 @@ function ensureAuthenticated(req, res, next) {
 // app.get('/', routes.index);
  app.get("/", function(req, res) {//this default page will go for the angular site
   console.log('going to send html')
-  res.redirect("/index.html");
+  // res.redirect("/index.html");
+
+  res.sendFile("/index.html")
 });
 
 

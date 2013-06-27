@@ -19,9 +19,7 @@ angular.module('angularUiTestingApp')
     })
   //version 2 with http
 
-  $scope.$on('event:auth-loginRequired', function(event, data){
-  	console.log('event:auth-loginRequired was called: ' + JSON.stringify(data))
-  });//end scope loginConfirmed
+
 
 
   }]);

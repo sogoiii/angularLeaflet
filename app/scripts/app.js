@@ -4,6 +4,8 @@ var app = angular.module('angularUiTestingApp', ['ui.state', 'ui.bootstrap', 're
   .config([  '$stateProvider', '$routeProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider',
     function (  $stateProvider, $routeProvider,   $urlRouterProvider , $locationProvider, RestangularProvider) {
     
+      $locationProvider.html5Mode(true);
+
     RestangularProvider.setBaseUrl("/api");
     // RestangularProvider.setDefaultHttpFields({cache: true});
     RestangularProvider.setFullResponse = true;
@@ -18,7 +20,7 @@ var app = angular.module('angularUiTestingApp', ['ui.state', 'ui.bootstrap', 're
      // $locationProvider.hashPrefix('#');
 
     // $routeProvider
-    //   .when('/', {
+    //   .when('/ddd', {
     //     templateUrl: 'views/main.html',
     //     controller: 'MainCtrl'
     //   })
@@ -28,7 +30,7 @@ var app = angular.module('angularUiTestingApp', ['ui.state', 'ui.bootstrap', 're
 
   $stateProvider
     .state('index', {
-        url: "", // root route
+        url: "/", // root route
         views: {
             "bodyView": {
                 templateUrl: "views/main.html",

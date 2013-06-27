@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="components/bootstrap/docs/assets/css/bootstrap.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="angularUiTestingApp">
+  <body ng-app="angularUiTestingApp" ng-cloak>
     <!--[if lt IE 7]>
       <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
     <![endif]-->
@@ -29,16 +29,16 @@
 
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner"><div class="container">
-        <a class="brand" href="#">Your App</a>
+        <a class="brand" href="/">Your App</a>
         <ul class="nav">
-          <li ng-class=""><a href="#/contact">Contact</a></li>
-          <li ng-class=""><a href="#/about">About</a></li>
+          <li ng-class=""><a href="/contact">Contact</a></li>
+          <li ng-class=""><a href="/about">About</a></li>
         </ul>
         <div ng-controller='LoginRegisterCtrl'>
           <div class= "btn-group pull-right" ng-show="!isLoggedIn">
-            <button class="btn" ng-click="open()"> Log In</button>
+            <button class="btn" ng-click="openLoginModal()"> Log In</button>
             <button class="btn btn-success"> Register</button>
-            <div modal="shouldBeOpen" close="close()" options="opts">
+            <div modal="shouldLoginModalBeOpen" close="closeLoginModal()" options="optsModal">
                 <div class="modal-header">
                     <h3>Welcome! Please login</h3>
                 </div>
@@ -62,7 +62,11 @@
                         </div>
                       </fieldset>
                     </form>
-                    <p>{{isLoggedIn}}</p>
+                    <span ng-show="showUnAuthMessage">
+                      <alert class="alert-error">
+                        <h5>{{unAuthMessage}}</h5>
+                      </alert>
+                    </span>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-success" ng-click="submitLoginInfo()">Login</button>
