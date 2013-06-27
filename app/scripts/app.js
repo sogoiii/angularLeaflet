@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularUiTestingApp', ['ui.state', 'ui.bootstrap', 'restangular'])
+var app = angular.module('angularUiTestingApp', ['ui.state', 'ui.bootstrap', 'restangular', 'http-auth-interceptor'])
   .config([  '$stateProvider', '$routeProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider',
     function (  $stateProvider, $routeProvider,   $urlRouterProvider , $locationProvider, RestangularProvider) {
     
@@ -62,42 +62,6 @@ angular.module('angularUiTestingApp', ['ui.state', 'ui.bootstrap', 'restangular'
           controller: "UserIndexCtrl"
         }
       }
-
     })
-
-
-  //   .state('route1', {
-  //       url: "/route1",
-  //       views: {
-  //           "viewA": {
-  //               templateUrl: "route1.viewA.html"
-  //           },
-  //           "viewB": {
-  //               templateUrl: "route1.viewB.html"
-  //           }
-  //       }
-  //   })
-  //   .state('route2', {
-  //       url: "/route2",
-  //       views: {
-  //           "viewA": {
-  //               templateUrl: "route2.viewA.html"
-  //           },
-  //           "viewB": {
-  //               templateUrl: "route2.viewB.html"
-  //           }
-  //       }
-  //   })
-
-
-
-
-
-
-
-
-
-
-
 
   }]);

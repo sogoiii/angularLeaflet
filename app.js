@@ -59,8 +59,18 @@ if ('development' == app.get('env')) {
 
 
 
-
-
+/**
+ * ensureAuthenticated
+ */
+function ensureAuthenticated(req, res, next) {
+  // console.log('i am inside ensureAuthenticated')
+  if (req.isAuthenticated('myownauthenkeys')) {
+    return next();
+  }
+  // res.header('WWW-Authenticate', 'Basic realm="Login with email/password"');
+  console.log('user has not passed ensureAuthenticated')
+  res.redirect(401,'/');
+} //end of ensureAuthenticated
 
 
 
@@ -78,6 +88,8 @@ if ('development' == app.get('env')) {
 app.get('/users', user.list);
 
 app.post('/api/login', routes.login)
+
+app.get('/api/user/:userId', ensureAuthenticated, user.userIndex)
 
 // app.post('/api/login/:data', routes.login)
 
