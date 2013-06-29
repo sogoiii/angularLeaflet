@@ -51,13 +51,13 @@
                         <div class="control-group">
                           <label class="control-label">Email</label>
                           <div class="controls">
-                            <input type="email", name="email", placeholder= "you@email.com", required>
+                            <input type="email", name="email" ng-model="loginInfo.email" placeholder= "you@email.com" required>
                           </div>
                         </div>
                         <div class="control-group">
                           <label class="control-label">Password</label>
                           <div class="controls">
-                            <input type="Password", name="password", placeholder= "xxxxxxxxx", required>
+                            <input type="password", name="password" ng-model="loginInfo.password" ng-minlength='9' placeholder= "xxxxxxxxx", required>
                           </div>
                         </div>
                       </fieldset>
@@ -69,7 +69,7 @@
                     </span>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success" ng-click="submitLoginInfo()">Login</button>
+                    <button class="btn btn-success" ng-class="{'disabled': submitLoginClicked}" ng-click="submitLoginInfo(loginInfo)" ng-disabled="loginForm.$invalid">Login</button>
                 </div>
             </div>
 

@@ -7,6 +7,8 @@ var express = require('express')
   , http = require('http')
   , path = require('path');
 
+var helmet = require('helmet');
+
 var passport = require('passport')
   , LocalStrategy = require('passport-local').Strategy;
 
@@ -44,11 +46,17 @@ app.set('port', process.env.PORT || 3000);
 app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
+app.use(helmet.xframe());
+app.use(helmet.iexss());
+app.use(helmet.contentTypeOptions());
+
+
+
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
-app.use(express.session());
-
-
+// app.use(express.session()); //become stateless for lower memory and fastness (no remote calls to external servers like mongo or redis)//also set cookie httpOnly and secure only
+var helmet = require('helmet');
+// app.use(express.compress()); //have responses (from server to client) gzipped //slow
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname + '/app/'));
 app.use(app.router);

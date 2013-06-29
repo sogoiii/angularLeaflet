@@ -6,15 +6,19 @@ angular.module('angularUiTestingApp')
 
   	$scope.isLoggedIn = false
 
-  	$scope.submitLoginInfo = function(){
+  	$scope.submitLoginInfo = function(loginInfo){
   		console.log('submitloinginfo clicked')
+  		console.log(JSON.stringify(loginInfo, null, '\t'))
+
 	  	Restangular.one('login').post(null,{secondField: 'second input'}).then(function(data){ //placed null so as to pass data in body not url
 	  		$scope.isLoggedIn = data.authorized 
 	  	  	$stateParams.userId = data.userId;
+	  	  	$scope.submitLoginClicked = true;//turn login button off.
 	  		// console.log($stateParams)		
-	  		$state.transitionTo('userIndex', $stateParams);
+	  		// $state.transitionTo('userIndex', $stateParams);
 	  	}, function(){
-	  		console.log('restangular error')
+	  		console.log('restangular error');
+	  		$scope.submitLoginClicked = false;//turn loginButtnOn
 	  	})
   	}//end of submitLogInInfo
 
@@ -30,6 +34,7 @@ angular.module('angularUiTestingApp')
 
 	$scope.openLoginModal = function () {
 		$scope.shouldLoginModalBeOpen = true;	
+		// $scope.submitLoginClicked = false;//was here, i think its unneccessary; should be removed
 	};
 	$scope.closeLoginModal = function () {
 		$scope.shouldLoginModalBeOpen = false;
