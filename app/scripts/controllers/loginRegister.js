@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('angularUiTestingApp')
-  .controller('LoginRegisterCtrl' , ['$scope', 'Restangular', '$state', '$stateParams', '$http',
-  		function ($scope, Restangular, $state, $stateParams, $http) {
+  .controller('LoginRegisterCtrl' , ['$scope', 'Restangular', '$state', '$stateParams', '$http', 'userBasicInfo', 
+  		function ($scope, Restangular, $state, $stateParams, $http, userBasicInfo) {
 
   	$scope.isLoggedIn = false
 
@@ -10,18 +10,25 @@ angular.module('angularUiTestingApp')
   		console.log('submitloinginfo clicked')
   		console.log(JSON.stringify(loginInfo, null, '\t'))
 
-	  	Restangular.one('login').post(null,{secondField: 'second input'}).then(function(data){ //placed null so as to pass data in body not url
+	  	Restangular.one('login').post(null,loginInfo).then(function(data){ //placed null so as to pass data in body not url
 	  		$scope.isLoggedIn = data.authorized 
 	  	  	$stateParams.userId = data.userId;
 	  	  	$scope.submitLoginClicked = true;//turn login button off.
 	  		// console.log($stateParams)		
-	  		// $state.transitionTo('userIndex', $stateParams);
+	  		$state.transitionTo('userIndex', $stateParams);
+	  		$scope.shouldLoginModalBeOpen = false;//close modal
 	  	}, function(){
 	  		console.log('restangular error');
 	  		$scope.submitLoginClicked = false;//turn loginButtnOn
 	  	})
   	}//end of submitLogInInfo
 
+
+
+    $scope.$on('userBasicInfoBroadcast', function () {
+        $scope.userName = userBasicInfo.userName;
+        $scope._id = userBasicInfo._id;
+    });
 
 	$scope.$on('event:auth-loginRequired', function(event, data){
 	  	console.log('event:auth-loginRequired was called: ' + JSON.stringify(data))

@@ -33,7 +33,10 @@ var user = require('./routes/user')
 var dbFun = require('./DBfunctions');
 var dbloc = 'mongodb://localhost/angular-uiTesting'; //Change the name of the mongoDB, db
 var db = new dbFun.startup(dbloc);
-
+  var mongooseSessionStore = new mongoStore({
+    url: "mongodb://localhost/angular-uiTesting_sessions",
+    interval: 3600000
+  });
 
 
 // var app = express();
@@ -55,7 +58,16 @@ app.use(helmet.contentTypeOptions());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 // app.use(express.session()); //become stateless for lower memory and fastness (no remote calls to external servers like mongo or redis)//also set cookie httpOnly and secure only
-var helmet = require('helmet');
+  app.use(express.session({
+    cookie: {
+      maxAge: 3600000
+    },
+    store: mongooseSessionStore,
+    secret: "Secret Client Class",
+    key: 'connect.sid'
+  }));
+  app.use(passport.initialize());
+  app.use(passport.session());  
 // app.use(express.compress()); //have responses (from server to client) gzipped //slow
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname + '/app/'));
@@ -110,7 +122,7 @@ app.get('/static/:group/:name', function(req, res){
 
 app.get('/users', user.list);
 
-app.post('/api/login', routes.login)
+app.post('/api/login', passport.authenticate('local'), routes.login)
 
 app.get('/api/user/:userId', ensureAuthenticated, user.userIndex)
 
@@ -122,6 +134,7 @@ app.get("*", function(req, res) {// I could chnage this to the 404 page which ca
   console.log('no route found, sending index.html file manually')
   // res.redirect("/");
   res.sendfile("./app/index.html")
+  // res.send("index.html")
   // res.sendfile("./app/404.html");
 });
 

@@ -29,7 +29,7 @@ var app = angular.module('angularUiTestingApp', ['ui.state', 'ui.bootstrap', 're
       url: "/", // root route
       views: {
           "bodyView": {
-              templateUrl: "static/main.html",
+              templateUrl: "/static/main.html",
               controller: 'MainCtrl'
           }
       }
@@ -38,7 +38,7 @@ var app = angular.module('angularUiTestingApp', ['ui.state', 'ui.bootstrap', 're
       url: '/contact',
       views: {
         "bodyView": {
-          templateUrl: "static/contact.html",
+          templateUrl: "/static/contact.html",
           controller: "ContactCtrl"
         }
       }
@@ -47,7 +47,7 @@ var app = angular.module('angularUiTestingApp', ['ui.state', 'ui.bootstrap', 're
       url: '/about',
       views: {
           "bodyView": {
-            templateUrl: "static/about.html",
+            templateUrl: "/static/about.html",
             controller: "AboutCtrl"
           }
       }
@@ -56,7 +56,7 @@ var app = angular.module('angularUiTestingApp', ['ui.state', 'ui.bootstrap', 're
       url: '/user/{userId}',
       views: {
         "bodyView" : {
-          templateUrl: "static/user/userIndex.html",
+          templateUrl: "/static/user/userIndex.html",
           controller: "UserIndexCtrl"
         }
       }

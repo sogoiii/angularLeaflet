@@ -11,8 +11,8 @@
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="components/bootstrap/docs/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/components/bootstrap/docs/assets/css/bootstrap.css">
     <!-- endbuild -->
   </head>
   <body ng-app="angularUiTestingApp" ng-cloak>
@@ -78,7 +78,7 @@
           <ul class= "nav pull-right" ng-hide="!isLoggedIn">
             <li class="divider-vertical"></li>
             <li class="dropdown">
-              <a class="dropdown-toggle" href='#', data-toggle='dropdown'> UserName  <b class="caret"></b></a>
+              <a class="dropdown-toggle" href='#', data-toggle='dropdown'> {{userName}} <b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="!">Home</a></li>
                 <li><a href="!">Settings</a></li>
@@ -100,26 +100,27 @@
     <!-- <div ui-view="viewA"></div> -->
 
 
-    <script src="components/angular/angular.js"></script>
-    <script src="components/ui-router/release/angular-ui-router.js"></script>
+    <script src="/components/angular/angular.js"></script>
+    <script src="/components/ui-router/release/angular-ui-router.js"></script>
     
 
 
     <!-- build:js scripts/scripts.js -->
-    <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/main.js"></script>
+    <script src="/scripts/app.js"></script>
+    <script src="/scripts/controllers/main.js"></script>
 
-    <script src="scripts/controllers/contact.js"></script>
-    <script src="scripts/controllers/about.js"></script>
-    <script src="scripts/controllers/loginRegister.js"></script>
+    <script src="/scripts/controllers/contact.js"></script>
+    <script src="/scripts/controllers/about.js"></script>
+    <script src="/scripts/controllers/loginRegister.js"></script>
 
-    <script src="components/angular-http-auth/src/http-auth-interceptor.js"></script>
-    <script src="components/angular-ui-bootstrap/dist/ui-bootstrap-tpls-0.4.0.js"></script>
-    <script src="components/restangular/dist/dependencies/lodash.js"></script>
-    <script src="components/restangular/dist/restangular.js"></script>
+    <script src="/components/angular-http-auth/src/http-auth-interceptor.js"></script>
+    <script src="/components/angular-ui-bootstrap/dist/ui-bootstrap-tpls-0.4.0.js"></script>
+    <script src="/components/restangular/dist/dependencies/lodash.js"></script>
+    <script src="/components/restangular/dist/restangular.js"></script>
     
-    <script src="scripts/controllers/userIndex.js"></script>
+    <script src="/scripts/controllers/userIndex.js"></script>
 
+    <script src="/scripts/services/userBasicInfo.js"></script>
     <!-- endbuild -->
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
