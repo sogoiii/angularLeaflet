@@ -123,6 +123,7 @@ app.get('/static/:group/:name', function(req, res){
 app.get('/users', user.list);
 
 app.post('/api/login', passport.authenticate('local'), routes.login)
+app.post('/api/register', routes.register)
 
 app.get('/api/user/:userId', ensureAuthenticated, user.userIndex)
 

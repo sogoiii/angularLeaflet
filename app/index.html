@@ -37,7 +37,7 @@
         <div ng-controller='LoginRegisterCtrl'>
           <div class= "btn-group pull-right" ng-show="!isLoggedIn">
             <button class="btn" ng-click="openLoginModal()"> Log In</button>
-            <button class="btn btn-success"> Register</button>
+            <button class="btn btn-success" ng-click='openRegisterModal()'> Register</button>
             <div modal="shouldLoginModalBeOpen" close="closeLoginModal()" options="optsModal">
                 <div class="modal-header">
                     <h3>Welcome! Please login</h3>
@@ -74,13 +74,82 @@
             </div>
 
 
+
+
+            <div modal="shouldRegisterModalBeOpen" close="closeRegisterModal()" options="optsModal">
+                <div class="modal-header">
+                    <h3>Welcome! Please login</h3>
+                </div>
+                <div class="modal-body">
+
+
+                    <div class="alert alert-info">
+                      <h5>All fields required. Password must be longer than 9 characters</h5>
+                    </div>
+                    <form class="form-horizontal" name="RegisterForm">
+                      <fieldset>
+
+                        <div class="control-group">
+                          <label class="control-label">First Name</label>
+                          <div class="controls">
+                            <input type="text", name="firstName" ng-model="RegisterInfo.firstName" placeholder= "First Name" required>
+                          </div>
+                        </div>
+                        <div class="control-group">
+                          <label class="control-label">Last Name</label>
+                          <div class="controls">
+                            <input type="text", name="lastName" ng-model="RegisterInfo.lastName" placeholder= "Last Name" required>
+                          </div>
+                        </div>
+
+
+
+
+                        <div class="control-group">
+                          <label class="control-label">Email</label>
+                          <div class="controls">
+                            <input type="email", name="email" ng-model="RegisterInfo.email" placeholder= "you@email.com" required>
+                          </div>
+                        </div>
+                        <div class="control-group">
+                          <label class="control-label">Password</label>
+                          <div class="controls">
+                            <input type="password", name="password" ng-model="RegisterInfo.password" ng-minlength='9' placeholder= "xxxxxxxxx", required>
+                          </div>
+                        </div>
+                        <div class="control-group">
+                          <label class="control-label">Confirm Password</label>
+                          <div class="controls">
+                            <input type="password", name="confirmPassword" ng-model="RegisterInfo.confirmPassword" placeholder= "xxxxxxxxx" required>
+                          </div>
+                        </div>
+
+                      </fieldset>
+                    </form>
+                    <span ng-show="showRegisterServerError">
+                      <alert class="alert-error">
+                        <h5>{{RegisterServerError}}</h5>
+                      </alert>
+                    </span>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" ng-class="{'disabled': submitRegisterClicked}" ng-click="submitRegisterInfo(RegisterInfo)" ng-disabled="RegisterForm.$invalid">Register</button>
+                </div>
+            </div>
+
+
+
+
+
           </div>
           <ul class= "nav pull-right" ng-hide="!isLoggedIn">
             <li class="divider-vertical"></li>
             <li class="dropdown">
               <a class="dropdown-toggle" href='#', data-toggle='dropdown'> {{userName}} <b class="caret"></b></a>
               <ul class="dropdown-menu">
-                <li><a href="!">Home</a></li>
+                <li><a href="/user/{{userId}}">Home</a></li>
                 <li><a href="!">Settings</a></li>
               </ul>
             </li>

@@ -92,9 +92,39 @@ passport.deserializeUser(function(id, done) {
 
 
 
+exports.registerUser = function(userData, callback){
+
+  var newUser = new user({
+    firstName: userData.firstName,
+    lastName: userData.lastName,
+    email: userData.email,
+    password: userData.password
+  })
 
 
+  newUser.save(function(err, result){
+    if(!err) { 
+      console.log('result saved = ' + JSON.stringify(result))
+      return callback(null, result)
+    } else {
+      return callback(err, null)
+    }//end of !err tree
+  });//end of save
+};//end of registerUser
 
 
+exports.userIndex = function(userId, callback){
+
+  user.findById(userId, function(err, result){
+    if(!err){
+      console.log('DB: userIndex :: result = ' + JSON.stringify(result, null, '\t'))
+      return callback(null, result)
+    } else {
+      return calllback(err, null)
+    }//end of !err tree
+  });//end of user findById
+
+
+};//end of userIndex
 
 

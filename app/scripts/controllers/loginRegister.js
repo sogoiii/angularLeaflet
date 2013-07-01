@@ -23,11 +23,34 @@ angular.module('angularUiTestingApp')
 	  	})
   	}//end of submitLogInInfo
 
+  	$scope.submitRegisterInfo = function(RegisterInfo){
+  		console.log('submitRegisterInfo was called')
+
+
+  		Restangular.one('register').post(null, RegisterInfo).then(function(data){
+  			console.log('register success')
+  			console.log(data)
+
+  			$scope.isLoggedIn = data.authorized;
+  			$stateParams.userId = data.userId;
+  			$state.transitionTo('userIndex', $stateParams);
+  			$scope.shouldRegisterModalBeOpen = false;//close modal
+
+
+  		}, function(){
+  			console.log('register failed');
+  			$scope.submitLoginClicked = false;//turn loginButtnOn
+  			$scope.showRegisterServerError = true;
+  			$scope.RegisterServerError = 'Whoa! We are having a problem. Please try again or return later.'
+  		});
+  	};//end of submitRegisterInfo
+
 
 
     $scope.$on('userBasicInfoBroadcast', function () {
         $scope.userName = userBasicInfo.userName;
-        $scope._id = userBasicInfo._id;
+        $scope.userId = userBasicInfo._id;
+        $scope.isLoggedIn = true;
     });
 
 	$scope.$on('event:auth-loginRequired', function(event, data){
@@ -45,6 +68,13 @@ angular.module('angularUiTestingApp')
 	};
 	$scope.closeLoginModal = function () {
 		$scope.shouldLoginModalBeOpen = false;
+	};
+	$scope.openRegisterModal = function () {
+		$scope.shouldRegisterModalBeOpen = true;	
+		// $scope.submitLoginClicked = false;//was here, i think its unneccessary; should be removed
+	};
+	$scope.closeRegisterModal = function () {
+		$scope.shouldRegisterModalBeOpen = false;
 	};
 	$scope.optsModal = {
 		backdropFade: true,
