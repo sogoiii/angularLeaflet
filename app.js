@@ -93,7 +93,23 @@ function ensureAuthenticated(req, res, next) {
   res.redirect(401,'/');
 } //end of ensureAuthenticated
 
+/**
+ * RestirctAccess
+ */
 
+function RestirctAccess(req, res, next) {
+  if (req.params.agentId == req.session.passport.user ||
+      req.params.lenderId == req.session.passport.user ||
+      req.params.adminId == req.session.passport.user ||
+      req.params.clientId == req.session.passport.user
+       ) { //if authen
+    next();
+  } else {
+    // winston.info('APP: RestirctAccess: ERROR: failed to pass restrictACCESS');
+    // console.log('if something bad happens redirect to - > ' + req.session.userType + '/' + req.session.lenderId)
+    res.redirect(401, '/');
+  }
+} //end of RestirctAccess
 
 
 
@@ -125,7 +141,7 @@ app.get('/users', user.list);
 app.post('/api/login', passport.authenticate('local'), routes.login)
 app.post('/api/register', routes.register)
 
-app.get('/api/user/:userId', ensureAuthenticated, user.userIndex)
+app.get('/api/user/:userId', ensureAuthenticated, RestirctAccess,  user.userIndex)
 
 // app.post('/api/login/:data', routes.login)
 
