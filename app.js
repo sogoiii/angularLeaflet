@@ -98,11 +98,10 @@ function ensureAuthenticated(req, res, next) {
  */
 
 function RestirctAccess(req, res, next) {
-  if (req.params.agentId == req.session.passport.user ||
-      req.params.lenderId == req.session.passport.user ||
-      req.params.adminId == req.session.passport.user ||
-      req.params.clientId == req.session.passport.user
-       ) { //if authen
+  console.log('req.params , passport user :: ' + req.params.userId + ' ::: ' + req.session.passport.user)
+
+
+  if (req.params.userId == req.session.passport.user) { //if authen
     next();
   } else {
     // winston.info('APP: RestirctAccess: ERROR: failed to pass restrictACCESS');
@@ -141,7 +140,7 @@ app.get('/users', user.list);
 app.post('/api/login', passport.authenticate('local'), routes.login)
 app.post('/api/register', routes.register)
 
-app.get('/api/user/:userId', ensureAuthenticated, RestirctAccess,  user.userIndex)
+app.get('/api/user/:userId', ensureAuthenticated,  RestirctAccess,  user.userIndex)
 
 // app.post('/api/login/:data', routes.login)
 
