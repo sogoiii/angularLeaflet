@@ -2,16 +2,6 @@ var dbFun = require('../DBfunctions'); //access to the DB and other functions
 
 
 
-/*
- * GET users listing.
- */
-
-exports.list = function(req, res){
-  res.send("respond with a resource");
-};
-
-
-
 
 exports.userIndex = function(req, res){
 

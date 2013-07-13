@@ -58,16 +58,16 @@ app.use(helmet.contentTypeOptions());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 // app.use(express.session()); //become stateless for lower memory and fastness (no remote calls to external servers like mongo or redis)//also set cookie httpOnly and secure only
-  app.use(express.session({
-    cookie: {
-      maxAge: 3600000
-    },
-    store: mongooseSessionStore,
-    secret: "Secret Client Class",
-    key: 'connect.sid'
-  }));
-  app.use(passport.initialize());
-  app.use(passport.session());  
+app.use(express.session({
+  cookie: {
+    maxAge: 3600000
+  },
+  store: mongooseSessionStore,
+  secret: "Secret Client Class",
+  key: 'connect.sid'
+}));
+app.use(passport.initialize());
+app.use(passport.session());  
 // app.use(express.compress()); //have responses (from server to client) gzipped //slow
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(__dirname + '/app/'));
@@ -113,7 +113,7 @@ function RestirctAccess(req, res, next) {
 
 
 // app.get('/', routes.index);
- app.get("/", function(req, res) {//this default page will go for the angular site
+ app.get("/", function(req, res) {//this default page will go for the angular site //i dont think this one is used
   console.log('going to send index html')
   // res.redirect("/index.html");
   res.send("index.html")
@@ -133,10 +133,6 @@ app.get('/static/:group/:name', function(req, res){
 
 
 
-
-
-app.get('/users', user.list);
-
 app.post('/api/login', passport.authenticate('local'), routes.login)
 app.post('/api/register', routes.register)
 
@@ -153,7 +149,6 @@ app.get("*", function(req, res) {// I could chnage this to the 404 page which ca
   // res.send("index.html")
   // res.sendfile("./app/404.html");
 });
-
 
 
 http.createServer(app).listen(app.get('port'), function(){
