@@ -51,6 +51,7 @@ angular.module('angularUiTestingApp')
                             lat: 51.505,
                             lng: -0.09,
                             message: "I'm a static marker",
+                            draggable: true
                         },
                         m2: {
                             lat: 51,

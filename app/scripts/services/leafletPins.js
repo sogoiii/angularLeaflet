@@ -1,13 +1,15 @@
 'use strict';
 
 angular.module('angularUiTestingApp')
-  .factory('leafletPins', [ '$http', function($http) {
+  .factory('leafletPins', [ '$http',  function($http) {
     // Service logic
     // ...
 
+    // $http.defaults.useXDomain = true;
+
     var meaningOfLife = 42;
     var markers = [];
-
+    var cloudMadeAPIKey = 'ab23be50c54b453aa7abf862ce589286';
     var m = {};
 
     //custom numbers prototype
@@ -46,6 +48,48 @@ angular.module('angularUiTestingApp')
         var d = R * c;   
 
         console.log('distance = ' + d)     
-      }
+      },
+
+      routePoints: function(){
+        console.log('going to make a request to cloiudmade')
+        // $http.get('http://routes.cloudmade.com/ab23be50c54b453aa7abf862ce589286/api/0.3/47.25976,9.58423,47.26117,9.59882/car/shortest.js')
+        
+        console.log($http.defaults.headers)
+
+        $http({
+            method: 'JSONP', 
+            url: 'http://routes.cloudmade.com/ab23be50c54b453aa7abf862ce589286/api/0.3/47.25976,9.58423,47.26117,9.59882/car/shortest.js?callback=JSON_CALLBACK'
+    //         headers:  {
+    //     'Authorization': 'Basic d2VudHdvcnRobWFuOkNoYW5nZV9tZQ==',
+    //     'Accept': 'application/json;odata=verbose',
+    //     "X-Testing" : "testing"
+    // }
+          })  
+          .success(function(data, status, headers, config){
+            console.log('service received route data')
+            console.log(data)
+          })
+          .error(function(data, status, headers, config){
+            console.log('service failed to get route data')
+          })
+
+
+
+
+
+
+
+
+
+
+
+
+     }
+
+
+
+
+
+
     };
   }]);

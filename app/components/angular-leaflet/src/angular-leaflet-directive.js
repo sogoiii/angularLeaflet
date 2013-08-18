@@ -307,7 +307,10 @@ leafletDirective.directive('leaflet', [
                     console.log('I dropped the pin')
                     leafletPins.updateMarker(subName, marker)
                     leafletPins.computeDistance();
+                    leafletPins.routePoints();
 
+                    // currentCircle
+                    map.removeLayer(currentCircle)
                     createCircleAtMarker(scope_watch_name, marker_data, map, subName)
 
 
@@ -515,12 +518,12 @@ leafletDirective.directive('leaflet', [
 
             }//end of addCircle
 
-
+            var currentCircle = 'undefined'
 
             function createCircleAtMarker(scope_watch_name, marker_data, map, subName){
                 console.log('ill be creating a circle at this spot')
                 console.log(marker_data)
-                var currentCircle = L.circle([marker_data.lat, marker_data.lng], 500,
+                currentCircle = L.circle([marker_data.lat, marker_data.lng], 500,
                 {
                     color: 'blue',
                     fillColor: '#f03',

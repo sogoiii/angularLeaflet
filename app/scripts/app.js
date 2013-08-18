@@ -1,9 +1,14 @@
 'use strict';
 
 var app = angular.module('angularUiTestingApp', ['ui.state', 'ui.bootstrap', 'restangular', 'http-auth-interceptor', 'leaflet-directive'])
-  .config([  '$stateProvider', '$routeProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider',
-    function (  $stateProvider, $routeProvider,   $urlRouterProvider , $locationProvider, RestangularProvider) {
-    
+  .config([  '$stateProvider', '$routeProvider', '$urlRouterProvider', '$locationProvider', 'RestangularProvider', '$httpProvider',
+    function (  $stateProvider, $routeProvider,   $urlRouterProvider , $locationProvider, RestangularProvider, $httpProvider) {
+      $httpProvider.defaults.useXDomain = true;
+      delete $httpProvider.defaults.headers.common['X-Requested-With'];
+      // $httpProvider.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+      // $httpProvider.defaults.headers.common['X-myHeader'] = 'customvalue'
+      console.log($httpProvider.defaults.headers.common)
+
       $locationProvider.html5Mode(true);
 
     RestangularProvider.setBaseUrl("/api");
