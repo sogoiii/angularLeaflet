@@ -13,6 +13,8 @@
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="/styles/main.css">
     <link rel="stylesheet" href="/components/bootstrap/docs/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/components/leaflet/dist/leaflet.css">
+    <!-- <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" > -->
     <!-- endbuild -->
   </head>
   <body ng-app="angularUiTestingApp" ng-cloak>
@@ -168,7 +170,10 @@
     <div class="container" style="margin-top:60px" ui-view="bodyView"></div>
     <!-- <div ui-view="viewA"></div> -->
 
+    
 
+    <script src="/components/leaflet/dist/leaflet-src.js"></script>
+    <!-- // <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.js"></script> -->
     <script src="/components/angular/angular.js"></script>
     <script src="/components/ui-router/release/angular-ui-router.js"></script>
     
@@ -187,9 +192,13 @@
     <script src="/components/lodash/lodash.js"></script>
     <script src="/components/restangular/src/restangular.js"></script>
     
+    <script src="/components/angular-leaflet/src/angular-leaflet-directive.js"></script>
+
+
     <script src="/scripts/controllers/userIndex.js"></script>
 
     <script src="/scripts/services/userBasicInfo.js"></script>
+    <script src="scripts/services/leafletPins.js"></script>
     <!-- endbuild -->
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
