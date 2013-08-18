@@ -138,7 +138,6 @@ leafletDirective.directive('leaflet', [
 
             function setupTiles(){
                  // TODO build custom object for tiles, actually only the tile string
-
                  if (scope.defaults && scope.defaults.tileLayerOptions) {
                     for (var key in scope.defaults.tileLayerOptions) {
                         defaults.tileLayerOptions[key] = scope.defaults.tileLayerOptions[key];
@@ -295,19 +294,6 @@ leafletDirective.directive('leaflet', [
             }
 
 
-            // function ComputeDistanceBetweenPoints(marker_data){
-            //     var R = 6371; // km
-            //     var dLat = (lat2-lat1).toRad();
-            //     var dLon = (lon2-lon1).toRad();
-            //     var lat1 = lat1.toRad();
-            //     var lat2 = lat2.toRad();
-
-            //     var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-            //             Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2); 
-            //     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-            //     var d = R * c;
-            // }
-
 
             function createMarker(scope_watch_name, marker_data, map, subName) {
                 var marker = buildMarker(marker_data);
@@ -321,6 +307,10 @@ leafletDirective.directive('leaflet', [
                     console.log('I dropped the pin')
                     leafletPins.updateMarker(subName, marker)
                     leafletPins.computeDistance();
+
+                    createCircleAtMarker(scope_watch_name, marker_data, map, subName)
+
+
                     scope.safeApply(function (scope) {
                         marker_data.lat = marker.getLatLng().lat;
                         marker_data.lng = marker.getLatLng().lng;
@@ -527,7 +517,85 @@ leafletDirective.directive('leaflet', [
 
 
 
+            function createCircleAtMarker(scope_watch_name, marker_data, map, subName){
+                console.log('ill be creating a circle at this spot')
+                console.log(marker_data)
+                var currentCircle = L.circle([marker_data.lat, marker_data.lng], 500,
+                {
+                    color: 'blue',
+                    fillColor: '#f03',
+                    fillOpacity: 0.5
 
+                }).addTo(map)
+
+            }
+
+
+
+var MyControl = L.Control.extend({
+    options: {
+        position: 'topright'
+    },
+
+    onAdd: function (map) {
+        // create the control container with a particular class name
+        var container = L.DomUtil.create('div', 'leaflet-control-command-interior');
+
+        // var controlDiv = L.DomUtil.create('div', 'leaflet-control-command');
+        L.DomEvent
+            .addListener(container, 'click', L.DomEvent.stopPropagation)
+            .addListener(container, 'click', L.DomEvent.preventDefault)
+            .addListener(container, 'click', function () { MapShowCommand(); });
+        // ... initialize other DOM elements, add listeners, etc.
+
+        return container;
+    }
+});
+
+map.addControl(new MyControl());
+
+
+// // var cmAttr = 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade', cmUrl = 'http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/{styleId}/256/{z}/{x}/{y}.png';
+// // mapLayersList = [ L.tileLayer(cmUrl, {styleId: 22677, attribution: cmAttr}), L.tileLayer(cmUrl, {styleId: 999,   attribution: cmAttr}), L.tileLayer(cmUrl, {styleId: 46561, attribution: cmAttr})]
+// // var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+
+// var street_layer = new L.TileLayer(null, {minZoom: 8, maxZoom: 18});
+
+// var baseMaps = {"Streets": street_layer};
+// L.control.layers(baseMaps, null ).addTo(map);
+
+                        // function addControls() {
+                        //  var commandControl = new L.Control.Command({});
+                        //     map.addControl(commandControl);
+                        // }
+          
+
+                        function MapShowCommand() {
+                            console.log('custom button was clicked')
+                          // alert("debugging");
+                        }
+
+                        // L.Control.Command = L.Control.extend({
+                        //     options: {
+                        //         position: 'topleft',
+                        //     },
+
+                        //     onAdd: function (map) {
+                        //         var controlDiv = L.DomUtil.create('div', 'leaflet-control-command');
+                        //         L.DomEvent
+                        //             .addListener(controlDiv, 'click', L.DomEvent.stopPropagation)
+                        //             .addListener(controlDiv, 'click', L.DomEvent.preventDefault)
+                        //         .addListener(controlDiv, 'click', function () { MapShowCommand(); });
+
+                        //         var controlUI = L.DomUtil.create('div', 'leaflet-control-command-interior', controlDiv);
+                        //         controlUI.title = 'Map Commands';
+                        //         return controlDiv;
+                        //     }
+                        // });
+
+                        // L.control.command = function (options) {
+                        //     return new L.Control.Command(options);
+                        // };
         }//end of link
     };
 }]);

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angularUiTestingApp')
-  .factory('leafletPins', [function() {
+  .factory('leafletPins', [ '$http', function($http) {
     // Service logic
     // ...
 
