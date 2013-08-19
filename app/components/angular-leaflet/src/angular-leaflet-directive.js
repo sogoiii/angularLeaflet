@@ -92,7 +92,7 @@ leafletDirective.directive('leaflet', [
             setupBounds();
             setupMainMaerker();
             setupMarkers();
-            setupPaths();
+            // setupPaths();
             setupEvents();
             setupCircles();
 
@@ -270,8 +270,7 @@ leafletDirective.directive('leaflet', [
                 }
 
                 for (var name in scope.markers) {
-                    markers[name] = createMarker(
-                            'markers.'+name, scope.markers[name], map, name);
+                    markers[name] = createMarker('markers.'+name, scope.markers[name], map, name);
                     markers[name].on('click', genMultiMarkersClickCallback(name));
                 }
 
@@ -294,7 +293,7 @@ leafletDirective.directive('leaflet', [
             }
 
 
-
+            var routeLine = 'undefined'
             function createMarker(scope_watch_name, marker_data, map, subName) {
                 var marker = buildMarker(marker_data);
                 map.addLayer(marker);
@@ -307,48 +306,130 @@ leafletDirective.directive('leaflet', [
                     console.log('I dropped the pin')
                     leafletPins.updateMarker(subName, marker)
                     leafletPins.computeDistance();
-                    var routeData = leafletPins.routePoints();
-                    routeData.then(function(data){
-                        console.log('success promise')
-                        // console.log('routeData = ' + JSON.stringify(routeData))
-                        // console.log(data)
-
-                        var test = convertRouteToLeafletLatLngs(data.route_geometry)
-                        console.log(test)
-                                var scopePath = {
-                                    latLngs : test
-                                }
-
-                                var polyline = new L.Polyline([], {
-                                    weight: defaults.path.weight,
-                                    color: defaults.path.color,
-                                    opacity: defaults.path.opacity
-                                });
-
-                                if (scopePath.latlngs !== undefined) {
-                                    var latlngs = convertToLeafletLatLngs(scopePath.latlngs);
-                                    polyline.setLatLngs(latlngs);
-                                }
-
-                                if (scopePath.weight !== undefined) {
-                                    polyline.setStyle({ weight: scopePath.weight });
-                                }
-
-                                if (scopePath.color !== undefined) {
-                                    polyline.setStyle({ color: scopePath.color });
-                                }
-
-                                if (scopePath.opacity !== undefined) {
-                                    polyline.setStyle({ opacity: scopePath.opacity });
-                                }
-
-                                map.addLayer(polyline);
-
-                    }, function(data){
-                        console.log('failed promise')
-                    })
                     
+                    // scope.route = 'a new value' + Math.random()//can be removed, only done to test that the watch routs functions iscalled...it is
+
+                    // setupRoute();
+
+                    routeData = leafletPins.routePoints();
+
+
+                    routeData.then(function(data){
+                        scope.route = data
+
+                    })
+
+                    
+                    // routeData.then(function(data){
+                    //     console.log('success promise')
+                    //     console.log(routeLine)
+
+                    //     if(typeof routeLine !== 'undefined'){
+                    //         console.log('type of routline is not undefined')
+                    //         map.removeLayer(routeLine)
+                    //     } else {
+                    //         console.log('route line is undefined')
+                    //     }
+
+                    //     // console.log('routeData = ' + JSON.stringify(routeData))
+                    //     console.log(data)
+
+                    //     if(data.status == 207){
+                    //         console.log('failed to find a path, hence will not draw directions')
+                    //         return 
+                    //     }                        
+
+
+
+
+
+
+                                // var routeLineWatch = scope.$watch(routeLine, function (data, oldData) {
+                                //     console.log('watch routLine was called')
+                                //     console.log(data)
+                                //     console.log(oldData)
+                                //     if (!data) {
+                                //         console.log('will be removing a layer')
+                                //         map.removeLayer(routeLine);
+                                //         routeLineWatch();
+                                //         return;
+                                //     }
+
+                                //     if (oldData) {
+                                //         if (data.latlngs !== undefined && data.latlngs !== oldData.latlngs) {
+                                //             var latlngs = convertToLeafletLatLngs(data.latlngs);
+                                //             routeLine.setLatLngs(latlngs);
+                                //         }
+
+                                //         if (data.weight !== undefined && data.weight !== oldData.weight) {
+                                //             routeLine.setStyle({ weight: data.weight });
+                                //         }
+
+                                //         if (data.color !== undefined && data.color !== oldData.color) {
+                                //             routeLine.setStyle({ color: data.color });
+                                //         }
+
+                                //         if (data.opacity !== undefined && data.opacity !== oldData.opacity) {
+                                //             routeLine.setStyle({ opacity: data.opacity });
+                                //         }
+                                //     }
+                                // }, true);
+
+
+
+
+
+                        // var test = convertRouteToLeafletLatLngs(data.route_geometry)
+                        // console.log(test)
+                                // var routePath = {
+                                //     latlngs : test,
+                                //     weight: 3,
+                                //     opacity: 0.5,
+                                // }
+
+                                // var routeLine = new L.Polyline([], {
+                                //     weight: defaults.path.weight,
+                                //     color: defaults.path.color,
+                                //     opacity: defaults.path.opacity
+                                // });
+
+                                // if (routePath.latlngs !== undefined) {
+                                //     var latlngs = convertToLeafletLatLngs(routePath.latlngs);
+                                //     routeLine.setLatLngs(latlngs);
+                                // }
+
+                                // if (routePath.weight !== undefined) {
+                                //     routeLine.setStyle({ weight: routePath.weight });
+                                // }
+
+                                // if (routePath.color !== undefined) {
+                                //     routeLine.setStyle({ color: routePath.color });
+                                // }
+
+                                // if (routePath.opacity !== undefined) {
+                                //     routeLine.setStyle({ opacity: routePath.opacity });
+                                // }
+
+                                // map.addLayer(routeLine);
+
+
+
+
+
+
+
+
+
+                    // }, function(data){
+                    //     console.log('failed promise')
+                    // })
+                    
+
+
+
+
                     // currentCircle
+                    // map.removeLayer(routeLine)
                     map.removeLayer(currentCircle)
                     createCircleAtMarker(scope_watch_name, marker_data, map, subName)
 
@@ -435,6 +516,137 @@ leafletDirective.directive('leaflet', [
                 });
             }
 
+            setupRoute()
+
+            function setupRoute() {
+                console.log('setupRoute was called')
+                var route = {};
+                // scope.routes = route;
+                scope.route = route;
+
+                if (!scope.route) {
+                    console.log('will return because scope.route does not exist')
+                    return;
+                }
+
+                for (var name in scope.paths) {
+                    route[name] = createRoute(name, scope.paths[name], map);
+                }
+
+                leafletPins.setRouteObject(route)
+
+                console.log('!!!!!!!!!!!!!!')
+                console.log(route)
+                scope.$watch("route", function (newRoute) {
+                    console.log('the route variable has changed')
+                    console.log(newRoute)
+
+                    if(newRoute.status != 0){
+                        console.log('failed to find a path, hence will not draw directions')
+                        return 
+                    }      
+                    // leafletPins.routePathRemove(map);
+                    map.removeLayer(route)
+                    console.log(route)
+
+                    // map.removeLayer(route)
+
+                    // for( var name in scope.routes){
+                        newRoute = convertRouteToLeafletLatLngs(newRoute.route_geometry)
+                       route = createRoute(name, newRoute, map)
+                    // }
+
+
+
+                    // for (var new_name in newRoute) {
+                    //     if (route[new_name] === undefined) {
+                    //         route[new_name] = createRoute(new_name, newRoute[new_name], map);
+                    //     }
+                    // }
+                    // // Delete paths from the array
+                    // for (var name in route) {
+                    //     if (newRoute[name] === undefined) {
+                    //         delete route[name];
+                    //     }
+                    // }
+
+                });
+            };//end of setup Route
+
+
+            function createRoute(name, test, map) {
+                console.log('will now create the route on the map')
+                // console.log()
+
+                console.log(test.weight)
+                if(typeof(test.weight) !== 'undefined' ){
+                    console.log('weight exists, hence its the first call')
+                    routePath = test;
+                }
+                else {
+                    var routePath = {
+                        latlngs : test,
+                        weight: 3,
+                        opacity: 0.5,
+                    }
+                }
+                var routeLine = new L.Polyline([], {
+                    weight: defaults.path.weight,
+                    color: defaults.path.color,
+                    opacity: defaults.path.opacity
+                });
+
+                if (routePath.latlngs !== undefined) {
+                    var latlngs = convertToLeafletLatLngs(routePath.latlngs); //had to change because i updated the object before i entered this function
+                    routeLine.setLatLngs(latlngs);
+                }
+
+                if (routePath.weight !== undefined) {
+                    routeLine.setStyle({ weight: routePath.weight });
+                }
+
+                if (routePath.color !== undefined) {
+                    routeLine.setStyle({ color: routePath.color });
+                }
+
+                if (routePath.opacity !== undefined) {
+                    routeLine.setStyle({ opacity: routePath.opacity });
+                }
+
+                map.addLayer(routeLine);
+
+                // var clearWatch = scope.$watch('routes.' + name, function (data, oldData) {
+                //     console.log('clearWatch for routes was called')
+                //     if (!data) {
+                //         map.removeLayer(routeLine);
+                //         clearWatch();
+                //         return;
+                //     }
+
+                //     if (oldData) {
+                //         if (data.latlngs !== undefined && data.latlngs !== oldData.latlngs) {
+                //             var latlngs = convertToLeafletLatLngs(data.latlngs);
+                //             routeLine.setLatLngs(latlngs);
+                //         }
+
+                //         if (data.weight !== undefined && data.weight !== oldData.weight) {
+                //             routeLine.setStyle({ weight: data.weight });
+                //         }
+
+                //         if (data.color !== undefined && data.color !== oldData.color) {
+                //             routeLine.setStyle({ color: data.color });
+                //         }
+
+                //         if (data.opacity !== undefined && data.opacity !== oldData.opacity) {
+                //             polyline.setStyle({ opacity: data.opacity });
+                //         }
+                //     }
+                // }, true);
+
+                return routeLine             
+            }
+
+
             function setupPaths() {
                 var paths = {};
                 scope.leaflet.paths = !!attrs.testing ? paths : str_inspect_hint;
@@ -448,19 +660,21 @@ leafletDirective.directive('leaflet', [
                 for (var name in scope.paths) {
                     paths[name] = createPath(name, scope.paths[name], map);
                 }
+                console.log(paths)
 
                 scope.$watch("paths", function (newPaths) {
-                    for (var new_name in newPaths) {
-                        if (paths[new_name] === undefined) {
-                            paths[new_name] = createPath(new_name, newPaths[new_name], map);
-                        }
-                    }
-                    // Delete paths from the array
-                    for (var name in paths) {
-                        if (newPaths[name] === undefined) {
-                            delete paths[name];
-                        }
-                    }
+                    console.log('paths variable has changed')
+                    // for (var new_name in newPaths) {
+                    //     if (paths[new_name] === undefined) {
+                    //         paths[new_name] = createPath(new_name, newPaths[new_name], map);
+                    //     }
+                    // }
+                    // // Delete paths from the array
+                    // for (var name in paths) {
+                    //     if (newPaths[name] === undefined) {
+                    //         delete paths[name];
+                    //     }
+                    // }
 
                 }, true);
             }

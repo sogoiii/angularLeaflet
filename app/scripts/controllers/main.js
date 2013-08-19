@@ -66,7 +66,7 @@ angular.module('angularUiTestingApp')
                         m1 : {
                             lat: 51.50,
                             lng: -0.082,
-                            draggable: false
+                            draggable: true
                         },
                         m2: {
                             lat: 51,
