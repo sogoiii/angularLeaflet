@@ -307,8 +307,47 @@ leafletDirective.directive('leaflet', [
                     console.log('I dropped the pin')
                     leafletPins.updateMarker(subName, marker)
                     leafletPins.computeDistance();
-                    leafletPins.routePoints();
+                    var routeData = leafletPins.routePoints();
+                    routeData.then(function(data){
+                        console.log('success promise')
+                        // console.log('routeData = ' + JSON.stringify(routeData))
+                        // console.log(data)
 
+                        var test = convertRouteToLeafletLatLngs(data.route_geometry)
+                        console.log(test)
+                                var scopePath = {
+                                    latLngs : test
+                                }
+
+                                var polyline = new L.Polyline([], {
+                                    weight: defaults.path.weight,
+                                    color: defaults.path.color,
+                                    opacity: defaults.path.opacity
+                                });
+
+                                if (scopePath.latlngs !== undefined) {
+                                    var latlngs = convertToLeafletLatLngs(scopePath.latlngs);
+                                    polyline.setLatLngs(latlngs);
+                                }
+
+                                if (scopePath.weight !== undefined) {
+                                    polyline.setStyle({ weight: scopePath.weight });
+                                }
+
+                                if (scopePath.color !== undefined) {
+                                    polyline.setStyle({ color: scopePath.color });
+                                }
+
+                                if (scopePath.opacity !== undefined) {
+                                    polyline.setStyle({ opacity: scopePath.opacity });
+                                }
+
+                                map.addLayer(polyline);
+
+                    }, function(data){
+                        console.log('failed promise')
+                    })
+                    
                     // currentCircle
                     map.removeLayer(currentCircle)
                     createCircleAtMarker(scope_watch_name, marker_data, map, subName)
@@ -492,6 +531,12 @@ leafletDirective.directive('leaflet', [
             }
 
 
+            function convertRouteToLeafletLatLngs(latlngs){
+                var leafletLatLngs = latlngs.map(function(element){
+                        return new L.LatLng(element[0], element[1])
+                })
+                return leafletLatLngs
+            }
 
 
             function setupCircles(){
@@ -521,8 +566,8 @@ leafletDirective.directive('leaflet', [
             var currentCircle = 'undefined'
 
             function createCircleAtMarker(scope_watch_name, marker_data, map, subName){
-                console.log('ill be creating a circle at this spot')
-                console.log(marker_data)
+                // console.log('ill be creating a circle at this spot')
+                // console.log(marker_data)
                 currentCircle = L.circle([marker_data.lat, marker_data.lng], 500,
                 {
                     color: 'blue',

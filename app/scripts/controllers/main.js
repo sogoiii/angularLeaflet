@@ -45,28 +45,50 @@ angular.module('angularUiTestingApp')
             //     });
             // };
 
+            	//original markers
+            // $scope.markers = {
+            //             m1: {
+            //                 lat: 51.505,
+            //                 lng: -0.09,
+            //                 message: "I'm a static marker",
+            //                 draggable: true
+            //             },
+            //             m2: {
+            //                 lat: 51,
+            //                 lng: 0,
+            //                 focus: true,
+            //                 message: "Hey, drag me if you want",
+            //                 draggable: true
+            //             }
+            //         }
 
-            $scope.markers = {
-                        m1: {
-                            lat: 51.505,
-                            lng: -0.09,
-                            message: "I'm a static marker",
-                            draggable: true
+            $scope.markers =  {
+                        m1 : {
+                            lat: 51.50,
+                            lng: -0.082,
+                            draggable: false
                         },
                         m2: {
                             lat: 51,
-                            lng: 0,
-                            focus: true,
-                            message: "Hey, drag me if you want",
+                            lng: -0.09,
                             draggable: true
                         }
                     }
+
 
             $scope.circles = {
             	hey: 'data'
             }
 
-
+                angular.extend($scope, {
+                    paths: {
+                        p2: {
+                            weight: 3,
+                            opacity: 0.5,
+                            latlngs: [ $scope.markers.m1, $scope.markers.m2 ]
+                        }
+                    }
+                });
 
 
             $scope.removeMarkers = function() {
