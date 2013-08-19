@@ -533,10 +533,11 @@ leafletDirective.directive('leaflet', [
                     route[name] = createRoute(name, scope.paths[name], map);
                 }
 
-                leafletPins.setRouteObject(route)
+                // leafletPins.setRouteObject(route)
 
                 console.log('!!!!!!!!!!!!!!')
                 console.log(route)
+                map.removeLayer(route.p2)
                 scope.$watch("route", function (newRoute) {
                     console.log('the route variable has changed')
                     console.log(newRoute)
